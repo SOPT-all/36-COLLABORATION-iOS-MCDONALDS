@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E3458CA32DD10CEC00DC6693 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E3458CA22DD10CEC00DC6693 /* SnapKit */; };
+		E3458CA62DD10D0700DC6693 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E3458CA52DD10D0700DC6693 /* Then */; };
+		E3458CA92DD10D2D00DC6693 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = E3458CA82DD10D2D00DC6693 /* Kingfisher */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		E3D763272DCDD79B00851149 /* MCDONALDS_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MCDONALDS_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -14,7 +20,11 @@
 		E3D763392DCDD79C00851149 /* Exceptions for "MCDONALDS_iOS" folder in "MCDONALDS_iOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Global/Components/.gitkeep,
+				Global/Enums/.gitkeep,
+				Global/Resources/Fonts/.gitkeep,
 				Info.plist,
+				Network/.gitkeep,
 			);
 			target = E3D763262DCDD79B00851149 /* MCDONALDS_iOS */;
 		};
@@ -36,6 +46,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3458CA92DD10D2D00DC6693 /* Kingfisher in Frameworks */,
+				E3458CA32DD10CEC00DC6693 /* SnapKit in Frameworks */,
+				E3458CA62DD10D0700DC6693 /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +91,9 @@
 			);
 			name = MCDONALDS_iOS;
 			packageProductDependencies = (
+				E3458CA22DD10CEC00DC6693 /* SnapKit */,
+				E3458CA52DD10D0700DC6693 /* Then */,
+				E3458CA82DD10D2D00DC6693 /* Kingfisher */,
 			);
 			productName = MCDONALDS_iOS;
 			productReference = E3D763272DCDD79B00851149 /* MCDONALDS_iOS.app */;
@@ -107,6 +123,11 @@
 			);
 			mainGroup = E3D7631E2DCDD79B00851149;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E3458CA12DD10CEC00DC6693 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				E3458CA42DD10D0700DC6693 /* XCRemoteSwiftPackageReference "Then" */,
+				E3458CA72DD10D2D00DC6693 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E3D763282DCDD79B00851149 /* Products */;
 			projectDirPath = "";
@@ -335,6 +356,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E3458CA12DD10CEC00DC6693 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		E3458CA42DD10D0700DC6693 /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		E3458CA72DD10D2D00DC6693 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E3458CA22DD10CEC00DC6693 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E3458CA12DD10CEC00DC6693 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		E3458CA52DD10D0700DC6693 /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E3458CA42DD10D0700DC6693 /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+		E3458CA82DD10D2D00DC6693 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E3458CA72DD10D2D00DC6693 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E3D7631F2DCDD79B00851149 /* Project object */;
 }
