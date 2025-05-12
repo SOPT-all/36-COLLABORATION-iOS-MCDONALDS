@@ -22,7 +22,6 @@
 			membershipExceptions = (
 				Global/Components/.gitkeep,
 				Global/Enums/.gitkeep,
-				Global/Resources/Fonts/.gitkeep,
 				Info.plist,
 				Network/.gitkeep,
 			);
