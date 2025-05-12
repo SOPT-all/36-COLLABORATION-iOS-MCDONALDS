@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "drink-fanta.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
