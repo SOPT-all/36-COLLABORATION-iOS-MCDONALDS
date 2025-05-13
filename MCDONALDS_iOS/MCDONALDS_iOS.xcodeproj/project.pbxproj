@@ -20,7 +20,6 @@
 		E3D763392DCDD79C00851149 /* Exceptions for "MCDONALDS_iOS" folder in "MCDONALDS_iOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Global/Components/.gitkeep,
 				Global/Enums/.gitkeep,
 				Info.plist,
 				Network/.gitkeep,
