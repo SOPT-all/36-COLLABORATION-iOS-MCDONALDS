@@ -24,6 +24,8 @@ final class FindStoreView: BaseView {
     
     let parkingLotButton = FilterButton("주차장")
     
+    let mapImageView = UIImageView()
+    
     
     // MARK: - UI Setting
     
@@ -38,10 +40,27 @@ final class FindStoreView: BaseView {
             $0.contentMode = .scaleAspectFit
             $0.tintColor = .staticBlack
         }
+        
+        mcdriveButton.do {
+            $0.tag = 0
+        }
+        
+        twentyFourHourButton.do {
+            $0.tag = 1
+        }
+        
+        parkingLotButton.do {
+            $0.tag = 2
+        }
+        
+        mapImageView.do {
+            $0.contentMode = .scaleAspectFill
+            $0.backgroundColor = .grayScale400 // 임시로 색상 지정
+        }
     }
     
     override func setUI() {
-        addSubviews(filterContainerView)
+        addSubviews(filterContainerView, mapImageView)
         
         filterContainerView.addSubviews(
             filterButton,
@@ -83,6 +102,11 @@ final class FindStoreView: BaseView {
             $0.height.equalTo(30)
             $0.leading.equalTo(twentyFourHourButton.snp.trailing).offset(8)
             $0.centerY.equalToSuperview()
+        }
+        
+        mapImageView.snp.makeConstraints {
+            $0.top.equalTo(filterContainerView.snp.bottom)
+            $0.horizontalEdges.bottom.equalToSuperview()
         }
     }
 }

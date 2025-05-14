@@ -30,6 +30,7 @@ final class FilterButton: UIButton {
     init(_ title: String, isSelected: Bool = false) {
         super.init(frame: .zero)
         
+        self.isSelected = isSelected
         setButton(title, isSelected: isSelected)
     }
     
@@ -38,13 +39,13 @@ final class FilterButton: UIButton {
     }
 }
 
+// MARK: - Functions
+
 extension FilterButton {
     private func setButton(_ title: String, isSelected: Bool) {
         setTitle(title, for: .normal)
         setTitleColor(.staticBlack, for: .normal)
         titleLabel?.font = .pretendard(.captionReg11)
-        backgroundColor = isSelected ? selectedBackgroundColor : defaultBackgroundColor
-        setBorder(borderColor: isSelected ? selectedBorderColor : defaultBorderColor)
         setCornerRadius(cornerRadius)
     }
     
