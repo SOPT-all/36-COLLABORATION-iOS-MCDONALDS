@@ -54,8 +54,8 @@ final class FindStoreView: BaseView {
         }
         
         mapImageView.do {
+            $0.image = .map
             $0.contentMode = .scaleAspectFill
-            $0.backgroundColor = .grayScale400 // 임시로 색상 지정
         }
     }
     
