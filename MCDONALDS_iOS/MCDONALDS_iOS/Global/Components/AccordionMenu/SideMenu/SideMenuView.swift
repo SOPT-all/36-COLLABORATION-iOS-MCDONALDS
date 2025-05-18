@@ -132,14 +132,11 @@ final class SideMenuView: UIView {
         changeIngredientsButton.do {
             $0.setImage(UIImage(named: "icon-downarrow"), for: .normal)
             $0.addTarget(self, action: #selector(expandEASection), for: .touchUpInside)
-
         }
         
         hiddenSeparatorView2.do {
             $0.backgroundColor = .grayScale200
         }
-        
-        
     }
     
     private func setLayout() {
@@ -215,7 +212,6 @@ final class SideMenuView: UIView {
             self.expandedEAHeight = $0.height.equalTo(0).constraint
             $0.bottom.equalToSuperview()
         }
-        
     }
     
     @objc
@@ -245,5 +241,4 @@ final class SideMenuView: UIView {
             self.layoutIfNeeded()
         }
     }
-    
 }

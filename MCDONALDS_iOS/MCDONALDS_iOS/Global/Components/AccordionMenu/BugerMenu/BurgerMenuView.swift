@@ -31,7 +31,6 @@ final class BurgerMenuView: UIView {
     
     private let hiddenSeparatorView2 = UIView()
     
-    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         
@@ -105,7 +104,6 @@ final class BurgerMenuView: UIView {
             $0.backgroundColor = .grayScale200
         }
         
-        
     }
     
     private func setLayout() {
@@ -169,5 +167,4 @@ final class BurgerMenuView: UIView {
             self.layoutIfNeeded()
         }
     }
-    
 }
