@@ -1,5 +1,5 @@
 //
-//  ExpandedEAView.swift
+//  ExpandedIceEAView.swift
 //  MCDONALDS_iOS
 //
 //  Created by 이상엽 on 5/18/25.
