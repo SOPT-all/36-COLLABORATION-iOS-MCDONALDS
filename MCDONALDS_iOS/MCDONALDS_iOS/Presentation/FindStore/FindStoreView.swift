@@ -28,6 +28,12 @@ final class FindStoreView: BaseView {
     
     let locationPinButton = UIButton()
     
+    private let locationStackView = UIStackView()
+    
+    private let nowLocationButton = UIButton()
+    
+    private let locationFloatingView = LocationFloatingView()
+    
     
     // MARK: - UI Setting
     
@@ -64,6 +70,19 @@ final class FindStoreView: BaseView {
             $0.setImage(.iconMclocation, for: .normal)
             $0.contentMode = .scaleAspectFit
         }
+        
+        locationStackView.do {
+            $0.axis = .vertical
+            $0.spacing = 8
+            $0.alignment = .leading
+            $0.distribution = .fill
+        }
+        
+        nowLocationButton.do {
+            $0.setImage(.iconLocation, for: .normal)
+            $0.setCornerRadius(22)
+            $0.backgroundColor = .staticWhite
+        }
     }
     
     override func setUI() {
@@ -76,7 +95,9 @@ final class FindStoreView: BaseView {
             parkingLotButton
         )
         
-        mapImageView.addSubviews(locationPinButton)
+        mapImageView.addSubviews(locationPinButton, locationStackView)
+        
+        locationStackView.addArrangedSubviews(nowLocationButton, locationFloatingView)
     }
     
     override func setLayout() {
@@ -123,6 +144,20 @@ final class FindStoreView: BaseView {
             $0.top.equalTo(filterContainerView.snp.bottom).offset(186)
             $0.height.equalTo(30)
             $0.width.equalTo(26)
+        }
+        
+        nowLocationButton.snp.makeConstraints {
+            $0.size.equalTo(44)
+        }
+        
+        locationFloatingView.snp.makeConstraints {
+            $0.width.equalTo(345)
+            $0.height.equalTo(210)
+        }
+        
+        locationStackView.snp.makeConstraints {
+            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview().inset(15)
         }
     }
 }
