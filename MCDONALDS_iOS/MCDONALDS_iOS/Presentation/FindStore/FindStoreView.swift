@@ -32,7 +32,7 @@ final class FindStoreView: BaseView {
     
     private let nowLocationButton = UIButton()
     
-    private let locationFloatingView = LocationFloatingView()
+    let locationFloatingView = LocationFloatingView()
     
     
     // MARK: - UI Setting
@@ -64,6 +64,7 @@ final class FindStoreView: BaseView {
         mapImageView.do {
             $0.image = .map
             $0.contentMode = .scaleAspectFill
+            $0.isUserInteractionEnabled = true
         }
         
         locationPinButton.do {
@@ -82,6 +83,10 @@ final class FindStoreView: BaseView {
             $0.setImage(.iconLocation, for: .normal)
             $0.setCornerRadius(22)
             $0.backgroundColor = .staticWhite
+        }
+        
+        locationFloatingView.do {
+            $0.isHidden = true
         }
     }
     
