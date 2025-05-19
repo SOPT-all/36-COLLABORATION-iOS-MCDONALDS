@@ -26,6 +26,8 @@ final class FindStoreView: BaseView {
     
     let mapImageView = UIImageView()
     
+    let locationPinButton = UIButton()
+    
     
     // MARK: - UI Setting
     
@@ -57,6 +59,11 @@ final class FindStoreView: BaseView {
             $0.image = .map
             $0.contentMode = .scaleAspectFill
         }
+        
+        locationPinButton.do {
+            $0.setImage(.iconMclocation, for: .normal)
+            $0.contentMode = .scaleAspectFit
+        }
     }
     
     override func setUI() {
@@ -68,6 +75,8 @@ final class FindStoreView: BaseView {
             twentyFourHourButton,
             parkingLotButton
         )
+        
+        mapImageView.addSubviews(locationPinButton)
     }
     
     override func setLayout() {
@@ -107,6 +116,13 @@ final class FindStoreView: BaseView {
         mapImageView.snp.makeConstraints {
             $0.top.equalTo(filterContainerView.snp.bottom)
             $0.horizontalEdges.bottom.equalToSuperview()
+        }
+        
+        locationPinButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(filterContainerView.snp.bottom).offset(186)
+            $0.height.equalTo(30)
+            $0.width.equalTo(26)
         }
     }
 }
