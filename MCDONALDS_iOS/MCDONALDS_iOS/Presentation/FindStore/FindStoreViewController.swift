@@ -51,6 +51,18 @@ final class FindStoreViewController: BaseViewController {
             action: #selector(filterButtonDidTap),
             for: .touchUpInside
         )
+        
+        rootView.locationPinButton.addTarget(
+            self,
+            action: #selector(locationPinButtonDidTap),
+            for: .touchUpInside
+        )
+        
+        rootView.locationFloatingView.selectButton.addTarget(
+            self,
+            action: #selector(selectButtonDidTap),
+            for: .touchUpInside
+        )
     }
 }
 
@@ -73,5 +85,17 @@ extension FindStoreViewController {
             let isSelected = (button == sender)
             button.isSelected = isSelected
         }
+    }
+    
+    @objc
+    private func locationPinButtonDidTap() {
+        UIView.animate(withDuration: 0.2) {
+            self.rootView.locationFloatingView.isHidden.toggle()
+        }
+    }
+    
+    @objc
+    private func selectButtonDidTap() {
+        print(#function)
     }
 }

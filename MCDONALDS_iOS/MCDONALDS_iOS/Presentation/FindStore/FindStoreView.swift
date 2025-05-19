@@ -26,6 +26,14 @@ final class FindStoreView: BaseView {
     
     let mapImageView = UIImageView()
     
+    let locationPinButton = UIButton()
+    
+    private let locationStackView = UIStackView()
+    
+    private let nowLocationButton = UIButton()
+    
+    let locationFloatingView = LocationFloatingView()
+    
     
     // MARK: - UI Setting
     
@@ -56,6 +64,29 @@ final class FindStoreView: BaseView {
         mapImageView.do {
             $0.image = .map
             $0.contentMode = .scaleAspectFill
+            $0.isUserInteractionEnabled = true
+        }
+        
+        locationPinButton.do {
+            $0.setImage(.iconMclocation, for: .normal)
+            $0.contentMode = .scaleAspectFit
+        }
+        
+        locationStackView.do {
+            $0.axis = .vertical
+            $0.spacing = 8
+            $0.alignment = .leading
+            $0.distribution = .fill
+        }
+        
+        nowLocationButton.do {
+            $0.setImage(.iconLocation, for: .normal)
+            $0.setCornerRadius(22)
+            $0.backgroundColor = .staticWhite
+        }
+        
+        locationFloatingView.do {
+            $0.isHidden = true
         }
     }
     
@@ -68,6 +99,10 @@ final class FindStoreView: BaseView {
             twentyFourHourButton,
             parkingLotButton
         )
+        
+        mapImageView.addSubviews(locationPinButton, locationStackView)
+        
+        locationStackView.addArrangedSubviews(nowLocationButton, locationFloatingView)
     }
     
     override func setLayout() {
@@ -107,6 +142,27 @@ final class FindStoreView: BaseView {
         mapImageView.snp.makeConstraints {
             $0.top.equalTo(filterContainerView.snp.bottom)
             $0.horizontalEdges.bottom.equalToSuperview()
+        }
+        
+        locationPinButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(filterContainerView.snp.bottom).offset(186)
+            $0.height.equalTo(30)
+            $0.width.equalTo(26)
+        }
+        
+        nowLocationButton.snp.makeConstraints {
+            $0.size.equalTo(44)
+        }
+        
+        locationFloatingView.snp.makeConstraints {
+            $0.width.equalTo(345)
+            $0.height.equalTo(210)
+        }
+        
+        locationStackView.snp.makeConstraints {
+            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview().inset(15)
         }
     }
 }
