@@ -96,6 +96,7 @@ extension FindStoreViewController {
     
     @objc
     private func selectButtonDidTap() {
-        print(#function)
+        let menuListViewController = MenuListViewController()
+        navigationController?.pushViewController(menuListViewController, animated: true)
     }
 }
