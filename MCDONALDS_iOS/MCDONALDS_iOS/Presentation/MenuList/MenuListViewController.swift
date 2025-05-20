@@ -151,6 +151,9 @@ extension MenuListViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
+        /*
+         Todo: 주문하기 뷰컨으로 버거 id 전달
+         */
         let orderViewController = OrderViewController()
         navigationController?.pushViewController(orderViewController, animated: true)
     }
