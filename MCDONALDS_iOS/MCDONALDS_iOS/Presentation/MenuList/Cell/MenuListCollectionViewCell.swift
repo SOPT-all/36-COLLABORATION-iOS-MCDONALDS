@@ -80,6 +80,8 @@ final class MenuListCollectionViewCell: BaseCollectionViewCell {
     }
 }
 
+// MARK: - Functions
+
 extension MenuListCollectionViewCell {
     func configure(_ menu: Menu) {
         if let imageURL = URL(string: menu.menuImg) {
