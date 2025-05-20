@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  MCDONALDS_iOS
-//
-//  Created by 김승원 on 5/9/25.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -16,7 +9,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
 
-        let viewController = OrderListViewController()
+        let viewController = FindStoreViewController()
 
         window?.rootViewController = UINavigationController(rootViewController: viewController)
         window?.makeKeyAndVisible()

@@ -1,5 +1,11 @@
-import UIKit
+//
+//  OrderListView.swift
+//  MCDONALDS_iOS
+//
+//  Created by 김승원 on 5/14/25.
+//
 
+import UIKit
 import SnapKit
 import Then
 
@@ -31,11 +37,16 @@ final class OrderListView: BaseView {
     // + 메뉴 추가
     let addMenuButton = UIButton(type: .custom)
     
-    // Footer
+    // Footer (주문 금액)
     private let footerSeparator = UIView()
     private let footerContainer = UIView()
     private let orderAmountStaticLabel = UILabel()
     let totalPriceLabel = UILabel()
+    
+    // MARK: - McdonaldsButton
+    
+    /// 최하단 노란 버튼
+    private let selectLocationButton = McdonaldsButton("제품 수령 장소 선택", type: .plainYellow)
     
     // MARK: - State
     
@@ -90,21 +101,17 @@ final class OrderListView: BaseView {
         }
         menuDetailLabel.do {
             let detailText = """
-        더블 1955® 버거
-        후렌치 후라이 - 미디엄
-        스프라이트 - 미디엄
-        선택 안함
-        """
-            let paragraphStyle = NSMutableParagraphStyle().then {
-                $0.lineSpacing = 4     // 원하는 줄 간격(px 단위)
-            }
-            
+            더블 1955® 버거
+            후렌치 후라이 - 미디엄
+            스프라이트 - 미디엄
+            선택 안함
+            """
+            let paragraphStyle = NSMutableParagraphStyle().then { $0.lineSpacing = 4 }
             let attrs: [NSAttributedString.Key: Any] = [
                 .font: UIFont(name: "Pretendard-Regular", size: 12)!,
                 .foregroundColor: UIColor.gray,
                 .paragraphStyle: paragraphStyle
             ]
-            
             $0.attributedText = NSAttributedString(string: detailText, attributes: attrs)
             $0.numberOfLines = 0
         }
@@ -121,7 +128,6 @@ final class OrderListView: BaseView {
             $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.3).cgColor
             $0.layer.cornerRadius = 8
         }
-        
         minusButton.do {
             $0.setImage(UIImage(named: "icon-minus"), for: .normal)
             $0.tintColor = .pointBlue
@@ -167,7 +173,7 @@ final class OrderListView: BaseView {
             $0.tintColor = .pointBlue
         }
         
-        // Footer
+        // Footer (주문 금액)
         footerSeparator.do {
             $0.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
         }
@@ -186,17 +192,30 @@ final class OrderListView: BaseView {
         }
     }
     
+    // MARK: - UI Hierarchy
+    
     override func setUI() {
         // Header
-        addSubviews(storeIconImageView, storeNameLabel, changeStoreButton, headerSeparator)
+        addSubviews(storeIconImageView,
+                    storeNameLabel,
+                    changeStoreButton,
+                    headerSeparator)
         
         // Menu Cell
         addSubview(menuContainer)
-        menuContainer.addSubviews(
-            menuTitleLabel, menuDetailLabel, menuImageView, menuPriceLabel, quantityContainer,
-            minusButton, quantityLabel, plusButton, editButton, deleteButton
-        )
-        quantityContainer.addSubviews(minusButton, quantityLabel, plusButton)
+        menuContainer.addSubviews(menuTitleLabel,
+                                  menuDetailLabel,
+                                  menuImageView,
+                                  menuPriceLabel,
+                                  quantityContainer,
+                                  minusButton,
+                                  quantityLabel,
+                                  plusButton,
+                                  editButton,
+                                  deleteButton)
+        quantityContainer.addSubviews(minusButton,
+                                      quantityLabel,
+                                      plusButton)
         
         // + 메뉴 추가
         addSubview(addMenuButton)
@@ -204,16 +223,21 @@ final class OrderListView: BaseView {
         // Footer
         addSubview(footerContainer)
         footerContainer.addSubview(footerSeparator)
-        footerContainer.addSubviews(orderAmountStaticLabel, totalPriceLabel)
+        footerContainer.addSubviews(orderAmountStaticLabel,
+                                    totalPriceLabel)
         
+        // Select Location Button
+        addSubview(selectLocationButton)
     }
+    
+    // MARK: - Layout
     
     override func setLayout() {
         // Header
         storeIconImageView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide).offset(13)
             $0.leading.equalToSuperview().offset(16)
-            $0.width.height.equalTo(30)
+            $0.size.equalTo(30)
         }
         storeNameLabel.snp.makeConstraints {
             $0.centerY.equalTo(storeIconImageView)
@@ -225,14 +249,14 @@ final class OrderListView: BaseView {
         }
         headerSeparator.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide).offset(56)
-            $0.leading.trailing.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(1)
         }
         
         // Menu Container
         menuContainer.snp.makeConstraints {
             $0.top.equalTo(headerSeparator.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
         }
         menuImageView.snp.makeConstraints {
             $0.top.equalTo(menuContainer).offset(16)
@@ -261,7 +285,6 @@ final class OrderListView: BaseView {
             $0.height.equalTo(32)
             $0.trailing.equalTo(plusButton.snp.trailing).offset(8)
         }
-        
         // Quantity & Actions
         minusButton.snp.makeConstraints {
             $0.top.equalTo(menuPriceLabel.snp.bottom).offset(26)
@@ -279,7 +302,7 @@ final class OrderListView: BaseView {
             $0.size.equalTo(28)
         }
         
-        // Edit/Delete Buttons
+        // Edit/Delete
         deleteButton.snp.makeConstraints {
             $0.centerY.equalTo(minusButton)
             $0.trailing.equalTo(menuContainer).inset(16)
@@ -291,12 +314,12 @@ final class OrderListView: BaseView {
             $0.size.equalTo(32)
         }
         
-        // separator below menu
+        // Separator below menu
         let menuSeparator = UIView().then { $0.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3) }
         menuContainer.addSubview(menuSeparator)
         menuSeparator.snp.makeConstraints {
             $0.top.equalTo(minusButton.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(1)
             $0.bottom.equalToSuperview()
         }
@@ -307,15 +330,15 @@ final class OrderListView: BaseView {
             $0.centerX.equalToSuperview()
         }
         
-        // Footer
+        // Footer (주문 금액)
         footerContainer.snp.makeConstraints {
-            $0.top.equalTo(footerContainer.safeAreaLayoutGuide.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(16)
             $0.height.equalTo(56)
         }
         footerSeparator.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(safeAreaLayoutGuide)
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(1)
         }
         orderAmountStaticLabel.snp.makeConstraints {
@@ -325,6 +348,13 @@ final class OrderListView: BaseView {
         totalPriceLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().inset(20)
+        }
+        
+        // Select Location Button
+        selectLocationButton.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.height.equalTo(56)
         }
     }
     
