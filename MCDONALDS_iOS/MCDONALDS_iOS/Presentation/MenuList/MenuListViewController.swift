@@ -146,4 +146,12 @@ extension MenuListViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         return CGSize(width: 375, height: 94)
     }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        let orderViewController = OrderViewController()
+        navigationController?.pushViewController(orderViewController, animated: true)
+    }
 }

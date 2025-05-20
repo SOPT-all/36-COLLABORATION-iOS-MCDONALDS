@@ -20,6 +20,8 @@ final class MenuListCollectionViewCell: BaseCollectionViewCell {
     
     private let priceLabel = UILabel()
     
+    private let separatorView = UIView()
+    
     // MARK: - UI Setting
     
     override func setStyle() {
@@ -29,7 +31,7 @@ final class MenuListCollectionViewCell: BaseCollectionViewCell {
         }
         
         titleLabel.do {
-            $0.text = "더블 1955 버거" // 임시 타이틀
+            $0.text = "더블 1955® 버거" // 임시 타이틀
             $0.font = .pretendard(.bodyBold13)
             $0.textColor = .grayScale800
         }
@@ -39,10 +41,14 @@ final class MenuListCollectionViewCell: BaseCollectionViewCell {
             $0.font = .pretendard(.bodyReg13)
             $0.textColor = .grayScale800
         }
+        
+        separatorView.do {
+            $0.backgroundColor = .grayScale200
+        }
     }
     
     override func setUI() {
-        contentView.addSubviews(burgerImageView, titleLabel, priceLabel)
+        contentView.addSubviews(burgerImageView, titleLabel, priceLabel, separatorView)
     }
     
     override func setLayout() {
@@ -63,6 +69,12 @@ final class MenuListCollectionViewCell: BaseCollectionViewCell {
             $0.top.equalTo(titleLabel.snp.bottom).offset(4)
             $0.leading.equalTo(burgerImageView.snp.trailing).offset(10)
             $0.height.equalTo(22)
+        }
+        
+        separatorView.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.height.equalTo(1)
+            $0.width.equalToSuperview()
         }
     }
 }
