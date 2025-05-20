@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  MCDONALDS_iOS
-//
-//  Created by 김승원 on 5/9/25.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
