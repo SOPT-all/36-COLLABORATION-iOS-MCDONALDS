@@ -28,6 +28,8 @@ final class MenuListView: BaseView {
     
     private let filterContainerView = UIView()
     
+    let menuListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
     // MARK: - UI Setting
     
     override func setStyle() {
@@ -42,7 +44,7 @@ final class MenuListView: BaseView {
     }
     
     override func setUI() {
-        addSubview(filterScrollView)
+        addSubviews(filterScrollView, menuListCollectionView)
         
         filterScrollView.addSubview(filterContainerView)
         
@@ -101,6 +103,11 @@ final class MenuListView: BaseView {
             $0.leading.equalTo(bulgogiButton.snp.trailing).offset(8)
             $0.height.equalTo(30)
             $0.width.equalTo(52)
+        }
+        
+        menuListCollectionView.snp.makeConstraints {
+            $0.top.equalTo(filterContainerView.snp.bottom)
+            $0.bottom.horizontalEdges.equalToSuperview()
         }
     }
 }
