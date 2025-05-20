@@ -63,7 +63,7 @@ final class ExpandedEAView: UIView {
         allStackView.do {
             $0.axis = .horizontal
             $0.alignment = .center
-            $0.spacing = 194
+            $0.spacing = 172
             $0.addArrangedSubviews(nameLabel, eaStackView)
         }
     }
