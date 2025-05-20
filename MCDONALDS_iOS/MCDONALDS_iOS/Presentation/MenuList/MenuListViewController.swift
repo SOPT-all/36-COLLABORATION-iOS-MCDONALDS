@@ -25,6 +25,7 @@ final class MenuListViewController: BaseViewController {
         super.viewDidLoad()
         
         setFilterButtons()
+        setRegister()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,11 +65,23 @@ final class MenuListViewController: BaseViewController {
             for: .touchUpInside
         )
     }
+    
+    override func setDelegate() {
+        rootView.menuListCollectionView.delegate = self
+        rootView.menuListCollectionView.dataSource = self
+    }
 }
 
 // MARK: - Functions
 
 extension MenuListViewController {
+    private func setRegister() {
+        rootView.menuListCollectionView.register(
+            MenuListCollectionViewCell.self,
+            forCellWithReuseIdentifier: MenuListCollectionViewCell.reuseIdentifier
+        )
+    }
+    
     private func setFilterButtons() {
         [
             rootView.newMenuButton,
@@ -87,5 +100,61 @@ extension MenuListViewController {
             let isSelected = (button == sender)
             button.isSelected = isSelected
         }
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension MenuListViewController: UICollectionViewDataSource {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        return 15
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = rootView.menuListCollectionView.dequeueReusableCell(
+            withReuseIdentifier: MenuListCollectionViewCell.reuseIdentifier,
+            for: indexPath
+        ) as? MenuListCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        
+        return cell
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension MenuListViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        return CGSize(width: 375, height: 94)
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        /*
+         Todo: 주문하기 뷰컨으로 버거 id 전달
+         */
+        let orderViewController = OrderViewController()
+        navigationController?.pushViewController(orderViewController, animated: true)
     }
 }
