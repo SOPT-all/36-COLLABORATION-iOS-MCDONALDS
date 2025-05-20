@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
+import Kingfisher
 
 final class MenuListCollectionViewCell: BaseCollectionViewCell {
     
@@ -76,5 +77,16 @@ final class MenuListCollectionViewCell: BaseCollectionViewCell {
             $0.height.equalTo(1)
             $0.width.equalToSuperview()
         }
+    }
+}
+
+extension MenuListCollectionViewCell {
+    func configure(_ menu: Menu) {
+        if let imageURL = URL(string: menu.menuImg) {
+            burgerImageView.kf.setImage(with: imageURL)
+        }
+        
+        titleLabel.text = menu.menuName
+        priceLabel.text = menu.menuPrice
     }
 }

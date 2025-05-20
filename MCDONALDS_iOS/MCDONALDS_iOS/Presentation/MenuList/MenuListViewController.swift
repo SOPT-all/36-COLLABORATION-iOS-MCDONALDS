@@ -17,6 +17,8 @@ final class MenuListViewController: BaseViewController {
     
     private var filterButtons: [UIButton] = []
     
+    private var menuList: [Menu] = []
+    
     // MARK: - Life Cycle
     
     override func loadView() {
@@ -40,7 +42,9 @@ final class MenuListViewController: BaseViewController {
                 guard let response = try await menuServcie.fetchMenuList() else {
                     return
                 }
-                dump(response.data)
+                
+                menuList = response.data.menuList
+                rootView.menuListCollectionView.reloadData()
             } catch {
                 dump(error)
             }
@@ -123,7 +127,7 @@ extension MenuListViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return 15
+        return menuList.count
     }
     
     func collectionView(
@@ -137,6 +141,7 @@ extension MenuListViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
+        cell.configure(menuList[indexPath.row])
         return cell
     }
 }
