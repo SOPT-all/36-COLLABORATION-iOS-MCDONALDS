@@ -13,6 +13,8 @@ final class MenuListViewController: BaseViewController {
     
     private let rootView = MenuListView()
     
+    private let menuServcie = MenuService.shared
+    
     private var filterButtons: [UIButton] = []
     
     // MARK: - Life Cycle
@@ -32,6 +34,17 @@ final class MenuListViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         setNavigationBar(type: .menuList)
+        
+        Task {
+            do {
+                guard let response = try await menuServcie.fetchMenuList() else {
+                    return
+                }
+                dump(response.data)
+            } catch {
+                dump(error)
+            }
+        }
     }
     
     override func setAction() {
