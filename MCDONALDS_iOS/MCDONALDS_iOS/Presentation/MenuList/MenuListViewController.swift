@@ -1,17 +1,17 @@
 //
-//  FindStoreViewController.swift
+//  MenuListViewController.swift
 //  MCDONALDS_iOS
 //
-//  Created by 김승원 on 5/15/25.
+//  Created by 김승원 on 5/20/25.
 //
 
 import UIKit
 
-final class FindStoreViewController: BaseViewController {
+final class MenuListViewController: BaseViewController {
     
     // MARK: - Properties
     
-    private let rootView = FindStoreView()
+    private let rootView = MenuListView()
     
     private var filterButtons: [UIButton] = []
     
@@ -30,37 +30,37 @@ final class FindStoreViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        setNavigationBar(type: .findStore)
+        setNavigationBar(type: .menuList)
     }
     
     override func setAction() {
-        rootView.mcdriveButton.addTarget(
+        rootView.newMenuButton.addTarget(
             self,
             action: #selector(filterButtonDidTap),
             for: .touchUpInside
         )
         
-        rootView.twentyFourHourButton.addTarget(
+        rootView.recommendButton.addTarget(
             self,
             action: #selector(filterButtonDidTap),
             for: .touchUpInside
         )
         
-        rootView.parkingLotButton.addTarget(
+        rootView.crispyButton.addTarget(
             self,
             action: #selector(filterButtonDidTap),
             for: .touchUpInside
         )
         
-        rootView.locationPinButton.addTarget(
+        rootView.bulgogiButton.addTarget(
             self,
-            action: #selector(locationPinButtonDidTap),
+            action: #selector(filterButtonDidTap),
             for: .touchUpInside
         )
         
-        rootView.locationFloatingView.selectButton.addTarget(
+        rootView.cheeseButton.addTarget(
             self,
-            action: #selector(selectButtonDidTap),
+            action: #selector(filterButtonDidTap),
             for: .touchUpInside
         )
     }
@@ -68,12 +68,14 @@ final class FindStoreViewController: BaseViewController {
 
 // MARK: - Functions
 
-extension FindStoreViewController {
+extension MenuListViewController {
     private func setFilterButtons() {
         [
-            rootView.mcdriveButton,
-            rootView.twentyFourHourButton,
-            rootView.parkingLotButton
+            rootView.newMenuButton,
+            rootView.recommendButton,
+            rootView.crispyButton,
+            rootView.bulgogiButton,
+            rootView.cheeseButton
         ].forEach { button in
             filterButtons.append(button)
         }
@@ -85,18 +87,5 @@ extension FindStoreViewController {
             let isSelected = (button == sender)
             button.isSelected = isSelected
         }
-    }
-    
-    @objc
-    private func locationPinButtonDidTap() {
-        UIView.animate(withDuration: 0.2) {
-            self.rootView.locationFloatingView.isHidden.toggle()
-        }
-    }
-    
-    @objc
-    private func selectButtonDidTap() {
-        let menuListViewController = MenuListViewController()
-        navigationController?.pushViewController(menuListViewController, animated: true)
     }
 }
