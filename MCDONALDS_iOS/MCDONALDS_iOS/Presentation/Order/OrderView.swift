@@ -9,11 +9,12 @@ import UIKit
 
 import SnapKit
 import Then
+import Kingfisher
 
 final class OrderView: BaseView {
     
     // MARK: - UI Properties
-    
+        
     private let scrollView = UIScrollView()
     
     private let contentView = UIView()
@@ -38,7 +39,7 @@ final class OrderView: BaseView {
     
     private let sideMenuView = SideMenuView()
     
-    private let burgerMenuView = BurgerMenuView()
+    let burgerMenuView = BurgerMenuView()
     
     private let beverageMenuView = BeverageMenuView()
     
@@ -96,7 +97,7 @@ final class OrderView: BaseView {
     override func setStyle() {
         burgerNameLabel.do {
             $0.font = .pretendard(.headBold29)
-            $0.text = "더블 1955® 버거"
+            $0.text = ""
         }
         
         burgerCardView.do {
@@ -107,7 +108,7 @@ final class OrderView: BaseView {
         }
         
         justBurgerImageView.do {
-            $0.image = UIImage(named: "side-french fries")
+            $0.image = UIImage(named: "")
             $0.contentMode = .scaleAspectFit
         }
         
@@ -117,7 +118,7 @@ final class OrderView: BaseView {
         }
         
         burgerPriceLabel.do {
-            $0.text = "₩9,500"
+            $0.text = ""
             $0.font = .pretendard(.bodyReg13)
         }
         
@@ -129,7 +130,7 @@ final class OrderView: BaseView {
         }
         
         comboImageView.do {
-            $0.image = UIImage(named: "side-coleslaw")
+            $0.image = UIImage(named: "")
             $0.contentMode = .scaleAspectFit
         }
         
@@ -139,7 +140,7 @@ final class OrderView: BaseView {
         }
         
         comboPriceLabel.do {
-            $0.text = "₩11,500"
+            $0.text = ""
             $0.font = .pretendard(.bodyReg13)
         }
         
@@ -302,4 +303,19 @@ final class OrderView: BaseView {
             $0.bottom.equalToSuperview()
         }
     }
+    
+    func configure(burgerName: String, singleImg: String, singlePrice: String, setImg: String, setPrice: String) {
+        burgerNameLabel.text = burgerName
+        burgerPriceLabel.text = singlePrice
+        comboPriceLabel.text = setPrice
+        
+        if let imageURL = URL(string: singleImg) {
+            justBurgerImageView.kf.setImage(with: imageURL)
+        }
+        
+        if let imageURL = URL(string: setImg) {
+            comboImageView.kf.setImage(with: imageURL)
+        }
+    }
 }
+

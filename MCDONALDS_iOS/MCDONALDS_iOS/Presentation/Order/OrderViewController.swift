@@ -13,6 +13,19 @@ final class OrderViewController: BaseViewController {
     
     private let rootView = OrderView()
     
+    private let menuDetailServcie = MenuDetailService.shared
+        
+    var burgerName: String = ""
+
+    var singleImg: String = ""
+
+    var singlePrice: String = ""
+    
+    var setImg: String = ""
+
+    var setPrice: String = ""
+
+    
     private lazy var burgerTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapBurgerView))
 
     private lazy var comboTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapComboView))
@@ -33,6 +46,29 @@ final class OrderViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         setNavigationBar(type: .order)
+        
+        Task {
+            do {
+                guard let response = try await menuDetailServcie.fetchMenuDetail(menuId: 2) else {
+                    return
+                }
+                dump(response.data)
+                let data = response.data
+                rootView.configure(
+                    burgerName: data.menuName,
+                    singleImg: data.singleImg,
+                    singlePrice: data.singlePrice,
+                    setImg: data.setImg,
+                    setPrice: data.setPrice
+                )
+                rootView.burgerMenuView.configure(
+                    burgerName: data.menuName,
+                    singleImg: data.singleImg,
+                )
+            } catch {
+                dump(error)
+            }
+        }
     }
     
     override func setAction() {
