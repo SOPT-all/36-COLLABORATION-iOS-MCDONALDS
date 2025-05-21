@@ -14,6 +14,8 @@ final class OrderViewController: BaseViewController {
     private let rootView = OrderView()
     
     private let menuDetailServcie = MenuDetailService.shared
+    
+    var menuId: Int = 0
         
     var burgerName: String = ""
 
@@ -25,6 +27,11 @@ final class OrderViewController: BaseViewController {
 
     var setPrice: String = ""
 
+    var selectedMenuId: Int = 0
+    
+    var isComboSelected: Bool = false
+    
+    var quantity: Int = 1
     
     private lazy var burgerTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapBurgerView))
 
@@ -49,7 +56,7 @@ final class OrderViewController: BaseViewController {
         
         Task {
             do {
-                guard let response = try await menuDetailServcie.fetchMenuDetail(menuId: 2) else {
+                guard let response = try await menuDetailServcie.fetchMenuDetail(menuId: self.menuId) else {
                     return
                 }
                 dump(response.data)
@@ -71,14 +78,28 @@ final class OrderViewController: BaseViewController {
         }
     }
     
+    init(menuId: Int) {
+        self.menuId = menuId
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @MainActor required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func setAction() {
         rootView.burgerCardView.addGestureRecognizer(burgerTapGesture)
         rootView.comboCardView.addGestureRecognizer(comboTapGesture)
         rootView.plusButton.addTarget(self, action: #selector(increaseQuantity), for: .touchUpInside)
         rootView.minusButton.addTarget(self, action: #selector(decreaseQuantity), for: .touchUpInside)
+        rootView.cartButton.addTarget(self, action: #selector(didTapAddToCartButton), for: .touchUpInside)
     }
     
     // MARK: - Functions
+    
+    private func updateLabel() {
+        rootView.quantityLabel.text = "\(quantity)"
+    }
     
     @objc
     private func didTapBurgerView() {
@@ -87,6 +108,8 @@ final class OrderViewController: BaseViewController {
 
         rootView.comboCardView.layer.borderColor = UIColor.grayScale200.cgColor
         rootView.comboCardView.backgroundColor = .white
+        
+        isComboSelected = false
     }
     
     @objc
@@ -96,23 +119,47 @@ final class OrderViewController: BaseViewController {
 
         rootView.burgerCardView.layer.borderColor = UIColor.grayScale200.cgColor
         rootView.burgerCardView.backgroundColor = .white
+        
+        isComboSelected = true
     }
     
     @objc
     private func increaseQuantity() {
-        rootView.quantity += 1
+        quantity += 1
         updateLabel()
     }
     
     @objc
     private func decreaseQuantity() {
-        if rootView.quantity > 0 {
-            rootView.quantity -= 1
+        if quantity > 1 {
+            quantity -= 1
             updateLabel()
         }
     }
     
-    private func updateLabel() {
-        rootView.quantityLabel.text = "\(rootView.quantity)"
+    @objc
+    func didTapAddToCartButton() {
+        let request = CartRequestDTO(
+            isSet: isComboSelected,
+            menuId: self.menuId,
+            amount: quantity
+        )
+
+        Task {
+            do {
+                _ = try await CartService.service.addToCart(with: request)
+                navigationController?.popViewController(animated: true)
+            } catch {
+                print("에러 발생: \(error)")
+            }
+        }
     }
+    
+    @objc
+    func didTapAddToOrderButton() {
+        // 화면 전환, 메뉴 아이디 전달
+        print("바로 주문하기 클릭")
+    }
+    
+
 }

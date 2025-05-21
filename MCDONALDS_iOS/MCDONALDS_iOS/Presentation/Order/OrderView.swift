@@ -47,7 +47,6 @@ final class OrderView: BaseView {
     
     let quantityLabel = UILabel()
     
-    var quantity: Int = 0
     
     let plusButton = UIButton()
     
@@ -57,9 +56,9 @@ final class OrderView: BaseView {
     
     private let goInfoButton = UIButton()
     
-    private let cartButton = McdonaldsButton("장바구니 담기", type: .outlinedYellow)
+    let cartButton = McdonaldsButton("장바구니 담기", type: .outlinedYellow)
     
-    private let orderButton = McdonaldsButton("바로 주문하기", type: .outlinedWhite)
+    let orderButton = McdonaldsButton("바로 주문하기", type: .outlinedWhite)
 
     
     // MARK: - UI Settings
@@ -166,7 +165,7 @@ final class OrderView: BaseView {
         }
         
         quantityLabel.do {
-            $0.text = "\(quantity)"
+            $0.text = "1"
             $0.font = .pretendard(.captionMed19)
         }
         
