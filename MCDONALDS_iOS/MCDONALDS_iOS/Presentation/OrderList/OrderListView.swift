@@ -2,7 +2,7 @@
 //  OrderListView.swift
 //  MCDONALDS_iOS
 //
-//  Created by 김승원 on 5/14/25.
+//  Created by 김현우 on 5/14/25.
 //
 
 import UIKit
@@ -46,7 +46,7 @@ final class OrderListView: BaseView {
     // MARK: - McdonaldsButton
     
     /// 최하단 노란 버튼
-    private let selectLocationButton = McdonaldsButton("제품 수령 장소 선택", type: .plainYellow)
+    let selectLocationButton = McdonaldsButton("제품 수령 장소 선택", type: .plainYellow)
     
     // MARK: - State
     
