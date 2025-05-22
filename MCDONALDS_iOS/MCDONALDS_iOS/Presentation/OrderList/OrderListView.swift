@@ -21,10 +21,10 @@ final class OrderListView: BaseView {
     
     // Menu Cell
     private let menuContainer = UIView()
-    private let menuImageView = UIImageView()
-    private let menuTitleLabel = UILabel()
-    private let menuDetailLabel = UILabel()
-    private let menuPriceLabel = UILabel()
+    let menuImageView = UIImageView()
+    let menuTitleLabel = UILabel()
+    let menuDetailLabel = UILabel()
+    let menuPriceLabel = UILabel()
     
     // Quantity & Actions
     private let quantityContainer = UIView()

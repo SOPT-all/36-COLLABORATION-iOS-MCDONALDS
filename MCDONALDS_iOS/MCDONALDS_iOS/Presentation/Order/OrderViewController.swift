@@ -158,7 +158,20 @@ final class OrderViewController: BaseViewController {
     
     @objc
     private func didTapAddToOrderButton() {
-        let orderListViewController = OrderListViewController()
-        navigationController?.pushViewController(orderListViewController, animated: true)
+        let request = CartRequestDTO(
+            isSet: isComboSelected,
+            menuId: self.menuId,
+            amount: quantity
+        )
+
+        Task {
+            do {
+                _ = try await CartService.service.addToCart(with: request)
+                let orderListViewController = OrderListViewController()
+                navigationController?.pushViewController(orderListViewController, animated: true)
+            } catch {
+                print("에러 발생: \(error)")
+            }
+        }
     }
 }

@@ -14,7 +14,7 @@ final class OrderListViewController: BaseViewController {
     // MARK: - Properties
     
     private let rootView = OrderListView()
-    private let menuService = MenuService.shared
+    private let cartService = CartService.service
     
     // MARK: - Life Cycle
     
@@ -30,6 +30,28 @@ final class OrderListViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNavigationBar(type: .orderList)
+        
+        Task {
+            do {
+                guard let response = try await cartService.fetchCart() else {
+                    return
+                }
+                rootView.menuTitleLabel.text = response.data.cartItems[response.data.cartItems.count - 1].menuName
+                if let imageURL = URL(string: response.data.cartItems[response.data.cartItems.count - 1].imageUrl) {
+                    rootView.menuImageView.kf.setImage(with: imageURL)
+                }
+                rootView.menuDetailLabel.text = """
+\(response.data.cartItems[response.data.cartItems.count - 1].menuName)
+후렌치 후라이 - 미디엄
+스프라이트 - 미디엄
+선택 안함
+"""
+                rootView.menuPriceLabel.text = "₩\(response.data.cartItems[response.data.cartItems.count - 1].price)"
+                rootView.totalPriceLabel.text = "₩\(response.data.cartItems[response.data.cartItems.count - 1].price)"
+            } catch {
+                // 에러 처리
+            }
+        }
     }
     
     override func setAction() {
