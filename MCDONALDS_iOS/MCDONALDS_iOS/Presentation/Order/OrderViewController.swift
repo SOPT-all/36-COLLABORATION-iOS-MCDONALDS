@@ -93,6 +93,7 @@ final class OrderViewController: BaseViewController {
         rootView.plusButton.addTarget(self, action: #selector(increaseQuantity), for: .touchUpInside)
         rootView.minusButton.addTarget(self, action: #selector(decreaseQuantity), for: .touchUpInside)
         rootView.cartButton.addTarget(self, action: #selector(didTapAddToCartButton), for: .touchUpInside)
+        rootView.orderButton.addTarget(self, action: #selector(didTapAddToOrderButton), for: .touchUpInside)
     }
     
     // MARK: - Functions
@@ -157,9 +158,7 @@ final class OrderViewController: BaseViewController {
     
     @objc
     private func didTapAddToOrderButton() {
-        // 화면 전환, 메뉴 아이디 전달
-        print("바로 주문하기 클릭")
+        let orderListViewController = OrderListViewController()
+        navigationController?.pushViewController(orderListViewController, animated: true)
     }
-    
-
 }
