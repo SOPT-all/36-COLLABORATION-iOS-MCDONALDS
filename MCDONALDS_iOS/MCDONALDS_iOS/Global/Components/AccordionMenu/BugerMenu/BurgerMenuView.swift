@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
+import Kingfisher
 
 final class BurgerMenuView: UIView {
     
@@ -76,13 +77,13 @@ final class BurgerMenuView: UIView {
         
         sideMenuImageView.do {
             $0.contentMode = .scaleAspectFit
-            $0.image = UIImage(named: "side-french fries")
+            $0.image = UIImage(named: "")
             $0.clipsToBounds = true
         }
         
         sideMenuLabel.do {
             $0.font = .pretendard(.bodyBold14)
-            $0.text = "더블 1955® 버거"
+            $0.text = ""
         }
         
         separatorView1.do {
@@ -152,6 +153,15 @@ final class BurgerMenuView: UIView {
             $0.bottom.equalToSuperview()
         }
         
+    }
+    
+    func configure(burgerName: String, singleImg: String) {
+        sideMenuLabel.text = burgerName
+
+        print(sideMenuLabel)
+        if let imageURL = URL(string: singleImg) {
+            sideMenuImageView.kf.setImage(with: imageURL)
+        }
     }
     
     @objc
