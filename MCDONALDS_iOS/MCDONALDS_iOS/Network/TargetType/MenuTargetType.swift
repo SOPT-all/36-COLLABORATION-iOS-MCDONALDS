@@ -30,7 +30,7 @@ extension MenuTargetType: TargetType {
         switch self {
         case .fetchMenuList:
             return .get
-        case .fetchMenuDetail(menuId: let menuId):
+        case .fetchMenuDetail:
             return .get
         }
     }
@@ -39,7 +39,7 @@ extension MenuTargetType: TargetType {
         switch self {
         case .fetchMenuList:
             return .requestPlain
-        case .fetchMenuDetail(menuId: let menuId):
+        case .fetchMenuDetail:
             return .requestPlain
         }
     }
