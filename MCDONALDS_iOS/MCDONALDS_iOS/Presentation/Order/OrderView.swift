@@ -9,11 +9,12 @@ import UIKit
 
 import SnapKit
 import Then
+import Kingfisher
 
 final class OrderView: BaseView {
     
     // MARK: - UI Properties
-    
+        
     private let scrollView = UIScrollView()
     
     private let contentView = UIView()
@@ -38,7 +39,7 @@ final class OrderView: BaseView {
     
     private let sideMenuView = SideMenuView()
     
-    private let burgerMenuView = BurgerMenuView()
+    let burgerMenuView = BurgerMenuView()
     
     private let beverageMenuView = BeverageMenuView()
     
@@ -46,7 +47,6 @@ final class OrderView: BaseView {
     
     let quantityLabel = UILabel()
     
-    var quantity: Int = 0
     
     let plusButton = UIButton()
     
@@ -56,9 +56,9 @@ final class OrderView: BaseView {
     
     private let goInfoButton = UIButton()
     
-    private let cartButton = McdonaldsButton("장바구니 담기", type: .outlinedYellow)
+    let cartButton = McdonaldsButton("장바구니 담기", type: .outlinedYellow)
     
-    private let orderButton = McdonaldsButton("바로 주문하기", type: .outlinedWhite)
+    let orderButton = McdonaldsButton("바로 주문하기", type: .outlinedWhite)
 
     
     // MARK: - UI Settings
@@ -96,7 +96,7 @@ final class OrderView: BaseView {
     override func setStyle() {
         burgerNameLabel.do {
             $0.font = .pretendard(.headBold29)
-            $0.text = "더블 1955® 버거"
+            $0.text = ""
         }
         
         burgerCardView.do {
@@ -107,7 +107,7 @@ final class OrderView: BaseView {
         }
         
         justBurgerImageView.do {
-            $0.image = UIImage(named: "side-french fries")
+            $0.image = UIImage(named: "")
             $0.contentMode = .scaleAspectFit
         }
         
@@ -117,7 +117,7 @@ final class OrderView: BaseView {
         }
         
         burgerPriceLabel.do {
-            $0.text = "₩9,500"
+            $0.text = ""
             $0.font = .pretendard(.bodyReg13)
         }
         
@@ -129,7 +129,7 @@ final class OrderView: BaseView {
         }
         
         comboImageView.do {
-            $0.image = UIImage(named: "side-coleslaw")
+            $0.image = UIImage(named: "")
             $0.contentMode = .scaleAspectFit
         }
         
@@ -139,7 +139,7 @@ final class OrderView: BaseView {
         }
         
         comboPriceLabel.do {
-            $0.text = "₩11,500"
+            $0.text = ""
             $0.font = .pretendard(.bodyReg13)
         }
         
@@ -165,7 +165,7 @@ final class OrderView: BaseView {
         }
         
         quantityLabel.do {
-            $0.text = "\(quantity)"
+            $0.text = "1"
             $0.font = .pretendard(.captionMed19)
         }
         
@@ -303,3 +303,20 @@ final class OrderView: BaseView {
         }
     }
 }
+
+extension OrderView {
+    func configure(burgerName: String, singleImg: String, singlePrice: String, setImg: String, setPrice: String) {
+        burgerNameLabel.text = burgerName
+        burgerPriceLabel.text = singlePrice
+        comboPriceLabel.text = setPrice
+        
+        if let imageURL = URL(string: singleImg) {
+            justBurgerImageView.kf.setImage(with: imageURL)
+        }
+        
+        if let imageURL = URL(string: setImg) {
+            comboImageView.kf.setImage(with: imageURL)
+        }
+    }
+}
+

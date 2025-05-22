@@ -172,7 +172,8 @@ extension MenuListViewController: UICollectionViewDelegateFlowLayout {
         /*
          Todo: 주문하기 뷰컨으로 버거 id 전달
          */
-        let orderViewController = OrderViewController()
+        let selectedMenu = menuList[indexPath.row]
+        let orderViewController = OrderViewController(menuId: selectedMenu.menuId)
         navigationController?.pushViewController(orderViewController, animated: true)
     }
 }

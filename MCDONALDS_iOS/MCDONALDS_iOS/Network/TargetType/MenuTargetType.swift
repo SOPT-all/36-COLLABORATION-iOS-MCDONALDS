@@ -9,6 +9,7 @@ import Foundation
 
 enum MenuTargetType {
     case fetchMenuList
+    case fetchMenuDetail(menuId: Int)
 }
 
 extension MenuTargetType: TargetType {
@@ -20,6 +21,8 @@ extension MenuTargetType: TargetType {
         switch self {
         case .fetchMenuList:
             return ""
+        case .fetchMenuDetail(menuId: let menuId):
+            return "/\(menuId)"
         }
     }
     
@@ -27,12 +30,16 @@ extension MenuTargetType: TargetType {
         switch self {
         case .fetchMenuList:
             return .get
+        case .fetchMenuDetail(menuId: let menuId):
+            return .get
         }
     }
     
     var task: NetworkTask {
         switch self {
         case .fetchMenuList:
+            return .requestPlain
+        case .fetchMenuDetail(menuId: let menuId):
             return .requestPlain
         }
     }

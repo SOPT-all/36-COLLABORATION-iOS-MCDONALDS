@@ -13,6 +13,26 @@ final class OrderViewController: BaseViewController {
     
     private let rootView = OrderView()
     
+    private let menuServcie = MenuService.shared
+    
+    var menuId: Int = 0
+        
+    var burgerName: String = ""
+
+    var singleImg: String = ""
+
+    var singlePrice: String = ""
+    
+    var setImg: String = ""
+
+    var setPrice: String = ""
+
+    var selectedMenuId: Int = 0
+    
+    var isComboSelected: Bool = false
+    
+    var quantity: Int = 1
+    
     private lazy var burgerTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapBurgerView))
 
     private lazy var comboTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapComboView))
@@ -33,6 +53,38 @@ final class OrderViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         setNavigationBar(type: .order)
+        
+        Task {
+            do {
+                guard let response = try await menuServcie.fetchMenuDetail(menuId: self.menuId) else {
+                    return
+                }
+                dump(response.data)
+                let data = response.data
+                rootView.configure(
+                    burgerName: data.menuName,
+                    singleImg: data.singleImg,
+                    singlePrice: data.singlePrice,
+                    setImg: data.setImg,
+                    setPrice: data.setPrice
+                )
+                rootView.burgerMenuView.configure(
+                    burgerName: data.menuName,
+                    singleImg: data.singleImg,
+                )
+            } catch {
+                dump(error)
+            }
+        }
+    }
+    
+    init(menuId: Int) {
+        self.menuId = menuId
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @MainActor required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func setAction() {
@@ -40,9 +92,14 @@ final class OrderViewController: BaseViewController {
         rootView.comboCardView.addGestureRecognizer(comboTapGesture)
         rootView.plusButton.addTarget(self, action: #selector(increaseQuantity), for: .touchUpInside)
         rootView.minusButton.addTarget(self, action: #selector(decreaseQuantity), for: .touchUpInside)
+        rootView.cartButton.addTarget(self, action: #selector(didTapAddToCartButton), for: .touchUpInside)
     }
     
     // MARK: - Functions
+    
+    private func updateLabel() {
+        rootView.quantityLabel.text = "\(quantity)"
+    }
     
     @objc
     private func didTapBurgerView() {
@@ -51,6 +108,8 @@ final class OrderViewController: BaseViewController {
 
         rootView.comboCardView.layer.borderColor = UIColor.grayScale200.cgColor
         rootView.comboCardView.backgroundColor = .white
+        
+        isComboSelected = false
     }
     
     @objc
@@ -60,23 +119,47 @@ final class OrderViewController: BaseViewController {
 
         rootView.burgerCardView.layer.borderColor = UIColor.grayScale200.cgColor
         rootView.burgerCardView.backgroundColor = .white
+        
+        isComboSelected = true
     }
     
     @objc
     private func increaseQuantity() {
-        rootView.quantity += 1
+        quantity += 1
         updateLabel()
     }
     
     @objc
     private func decreaseQuantity() {
-        if rootView.quantity > 0 {
-            rootView.quantity -= 1
+        if quantity > 1 {
+            quantity -= 1
             updateLabel()
         }
     }
     
-    private func updateLabel() {
-        rootView.quantityLabel.text = "\(rootView.quantity)"
+    @objc
+    private func didTapAddToCartButton() {
+        let request = CartRequestDTO(
+            isSet: isComboSelected,
+            menuId: self.menuId,
+            amount: quantity
+        )
+
+        Task {
+            do {
+                _ = try await CartService.service.addToCart(with: request)
+                navigationController?.popViewController(animated: true)
+            } catch {
+                print("에러 발생: \(error)")
+            }
+        }
     }
+    
+    @objc
+    private func didTapAddToOrderButton() {
+        // 화면 전환, 메뉴 아이디 전달
+        print("바로 주문하기 클릭")
+    }
+    
+
 }

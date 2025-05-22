@@ -15,4 +15,8 @@ final class MenuService: BaseService<MenuTargetType> {
     func fetchMenuList() async throws -> BaseResponseBody<MenuListResponseDTO>? {
         return try await request(with: .fetchMenuList)
     }
+    
+    func fetchMenuDetail(menuId: Int) async throws -> BaseResponseBody<MenuDetailResponseDTO>? {
+        return try await request(with: .fetchMenuDetail(menuId: menuId))
+    }
 }
