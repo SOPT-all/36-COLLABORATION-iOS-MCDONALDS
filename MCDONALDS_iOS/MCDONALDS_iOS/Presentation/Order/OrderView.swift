@@ -302,7 +302,9 @@ final class OrderView: BaseView {
             $0.bottom.equalToSuperview()
         }
     }
-    
+}
+
+extension OrderView {
     func configure(burgerName: String, singleImg: String, singlePrice: String, setImg: String, setPrice: String) {
         burgerNameLabel.text = burgerName
         burgerPriceLabel.text = singlePrice

@@ -13,7 +13,7 @@ final class OrderViewController: BaseViewController {
     
     private let rootView = OrderView()
     
-    private let menuDetailServcie = MenuDetailService.shared
+    private let menuServcie = MenuService.shared
     
     var menuId: Int = 0
         
@@ -56,7 +56,7 @@ final class OrderViewController: BaseViewController {
         
         Task {
             do {
-                guard let response = try await menuDetailServcie.fetchMenuDetail(menuId: self.menuId) else {
+                guard let response = try await menuServcie.fetchMenuDetail(menuId: self.menuId) else {
                     return
                 }
                 dump(response.data)
@@ -138,7 +138,7 @@ final class OrderViewController: BaseViewController {
     }
     
     @objc
-    func didTapAddToCartButton() {
+    private func didTapAddToCartButton() {
         let request = CartRequestDTO(
             isSet: isComboSelected,
             menuId: self.menuId,
@@ -156,7 +156,7 @@ final class OrderViewController: BaseViewController {
     }
     
     @objc
-    func didTapAddToOrderButton() {
+    private func didTapAddToOrderButton() {
         // 화면 전환, 메뉴 아이디 전달
         print("바로 주문하기 클릭")
     }
