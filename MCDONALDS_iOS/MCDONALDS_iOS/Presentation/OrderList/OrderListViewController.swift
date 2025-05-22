@@ -47,7 +47,6 @@ final class OrderListViewController: BaseViewController {
         // UICollectionView 셀 등록 등
     }
     
-    
     // MARK: - Actions (@objc)
     
     @objc private func didTapMinus() {
@@ -58,7 +57,7 @@ final class OrderListViewController: BaseViewController {
     }
     @objc private func didTapEdit() {
         // 옵션 변경 Bottom Sheet
-        let editVC = OrderViewController()
+        let editVC = OrderViewController(menuId: 1)
         editVC.modalPresentationStyle = .pageSheet
         if let sheet = editVC.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
