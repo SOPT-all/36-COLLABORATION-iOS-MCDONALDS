@@ -93,6 +93,7 @@ final class OrderViewController: BaseViewController {
         rootView.plusButton.addTarget(self, action: #selector(increaseQuantity), for: .touchUpInside)
         rootView.minusButton.addTarget(self, action: #selector(decreaseQuantity), for: .touchUpInside)
         rootView.cartButton.addTarget(self, action: #selector(didTapAddToCartButton), for: .touchUpInside)
+        rootView.orderButton.addTarget(self, action: #selector(didTapAddToOrderButton), for: .touchUpInside)
     }
     
     // MARK: - Functions
@@ -157,9 +158,20 @@ final class OrderViewController: BaseViewController {
     
     @objc
     private func didTapAddToOrderButton() {
-        // 화면 전환, 메뉴 아이디 전달
-        print("바로 주문하기 클릭")
-    }
-    
+        let request = CartRequestDTO(
+            isSet: isComboSelected,
+            menuId: self.menuId,
+            amount: quantity
+        )
 
+        Task {
+            do {
+                _ = try await CartService.service.addToCart(with: request)
+                let orderListViewController = OrderListViewController()
+                navigationController?.pushViewController(orderListViewController, animated: true)
+            } catch {
+                print("에러 발생: \(error)")
+            }
+        }
+    }
 }

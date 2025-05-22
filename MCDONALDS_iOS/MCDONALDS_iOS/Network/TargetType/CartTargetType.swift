@@ -9,6 +9,7 @@ import Foundation
 
 enum CartTargetType {
     case addToCart(CartRequestDTO)
+    case fetchCart
 }
 
 extension CartTargetType: TargetType {
@@ -20,6 +21,8 @@ extension CartTargetType: TargetType {
         switch self {
         case .addToCart:
             return ""
+        case .fetchCart:
+            return ""
         }
     }
     
@@ -27,6 +30,8 @@ extension CartTargetType: TargetType {
         switch self {
         case .addToCart:
             return .post
+        case .fetchCart:
+            return .get
         }
     }
     
@@ -34,6 +39,8 @@ extension CartTargetType: TargetType {
         switch self {
         case .addToCart(let reqeust):
             return .requestJSONEncodable(encodable: reqeust)
+        case .fetchCart:
+            return .requestPlain
         }
     }
     

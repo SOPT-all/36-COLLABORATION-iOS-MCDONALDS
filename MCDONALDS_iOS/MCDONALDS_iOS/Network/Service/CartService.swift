@@ -18,4 +18,8 @@ final class CartService: BaseService<CartTargetType> {
     func addToCart(with request: CartRequestDTO) async throws -> BaseResponseBody<EmptyResponse> {
         return try await self.request(with: .addToCart(request))
     }
+    
+    func fetchCart() async throws -> BaseResponseBody<CartResponseDTO>? {
+        return try await self.request(with: .fetchCart)
+    }
 }
