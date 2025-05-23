@@ -19,6 +19,9 @@ final class OrderListViewController: BaseViewController {
     
     private var price: Int = 0
     
+    private var burgerName: String = ""
+    private var burgerImageString: String = ""
+    
     // MARK: - Life Cycle
     
     override func loadView() {
@@ -57,6 +60,8 @@ final class OrderListViewController: BaseViewController {
                 price = response.data.cartItems[response.data.cartItems.count - 1].price
                 rootView.quantity = response.data.cartItems[response.data.cartItems.count - 1].amount
                 rootView.quantityLabel.text = "\(response.data.cartItems[response.data.cartItems.count - 1].amount)"
+                burgerName = response.data.cartItems[response.data.cartItems.count - 1].menuName
+                burgerImageString = response.data.cartItems[response.data.cartItems.count - 1].imageUrl
                 
             }
         }
@@ -87,7 +92,10 @@ final class OrderListViewController: BaseViewController {
     }
     @objc private func didTapEdit() {
         // 옵션 변경 Bottom Sheet
-        let editVC = OrderViewController(menuId: 1)
+        let editVC = BottomSheetViewController(
+            burgerName: burgerName,
+            burgerImageString: burgerImageString
+        )
         editVC.modalPresentationStyle = .pageSheet
         if let sheet = editVC.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
