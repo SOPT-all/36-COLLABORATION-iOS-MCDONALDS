@@ -22,4 +22,8 @@ final class CartService: BaseService<CartTargetType> {
     func fetchCart() async throws -> BaseResponseBody<CartResponseDTO>? {
         return try await self.request(with: .fetchCart)
     }
+    
+    func updateCart(cartItemID: Int, requestBody: UpdateCartRequestDTO) async throws -> BaseResponseBody<EmptyResponse>? {
+        return try await self.request(with: .updateCart(cartItemID: cartItemID, requestBody: requestBody))
+    }
 }

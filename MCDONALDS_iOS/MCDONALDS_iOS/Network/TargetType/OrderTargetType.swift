@@ -9,6 +9,7 @@ import Foundation
 
 enum OrderTargetType {
     case order
+    case fetchRecentOrder
 }
 
 extension OrderTargetType: TargetType {
@@ -20,6 +21,8 @@ extension OrderTargetType: TargetType {
         switch self {
         case .order:
             return ""
+        case .fetchRecentOrder:
+            return "/recent"
         }
     }
     
@@ -27,6 +30,8 @@ extension OrderTargetType: TargetType {
         switch self {
         case .order:
             return .post
+        case .fetchRecentOrder:
+            return .get
         }
     }
     
@@ -34,13 +39,12 @@ extension OrderTargetType: TargetType {
         switch self {
         case .order:
             return .requestPlain
+        case .fetchRecentOrder:
+            return .requestPlain
         }
     }
     
     var headers: HeaderField {
-        switch self {
-        case .order:
-            return .userId(2)
-        }
+        return .userId(2)
     }
 }

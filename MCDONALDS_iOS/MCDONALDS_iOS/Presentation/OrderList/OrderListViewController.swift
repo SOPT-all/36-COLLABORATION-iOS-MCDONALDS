@@ -21,6 +21,7 @@ final class OrderListViewController: BaseViewController {
     
     private var burgerName: String = ""
     private var burgerImageString: String = ""
+    private var menuId: Int = -1
     
     // MARK: - Life Cycle
     
@@ -45,7 +46,6 @@ final class OrderListViewController: BaseViewController {
                 rootView.menuTitleLabel.text = response.data.cartItems[response.data.cartItems.count - 1].menuName
                 if let imageURL = URL(string: response.data.cartItems[response.data.cartItems.count - 1].imageUrl) {
                     rootView.menuImageView.kf.setImage(with: imageURL)
-                    rootView.recentOrderImageView.kf.setImage(with: imageURL)
                 }
                 rootView.menuDetailLabel.text = """
 \(response.data.cartItems[response.data.cartItems.count - 1].menuName)
@@ -55,13 +55,12 @@ final class OrderListViewController: BaseViewController {
 """
                 rootView.menuPriceLabel.text = "₩\(response.data.cartItems[response.data.cartItems.count - 1].price)"
                 rootView.totalPriceLabel.text = "₩\(response.data.cartItems[response.data.cartItems.count - 1].price * response.data.cartItems[response.data.cartItems.count - 1].amount)"
-                rootView.recentOrderPriceLabel.text = "₩\(response.data.cartItems[response.data.cartItems.count - 1].price) ~"
-                rootView.recentOrderNameLabel.text = response.data.cartItems[response.data.cartItems.count - 1].menuName
                 price = response.data.cartItems[response.data.cartItems.count - 1].price
                 rootView.quantity = response.data.cartItems[response.data.cartItems.count - 1].amount
                 rootView.quantityLabel.text = "\(response.data.cartItems[response.data.cartItems.count - 1].amount)"
                 burgerName = response.data.cartItems[response.data.cartItems.count - 1].menuName
                 burgerImageString = response.data.cartItems[response.data.cartItems.count - 1].imageUrl
+                menuId = response.data.cartItems[response.data.cartItems.count - 1].menuId
                 
             }
         }
@@ -86,9 +85,23 @@ final class OrderListViewController: BaseViewController {
     
     @objc private func didTapMinus() {
         rootView.totalPriceLabel.text = "₩\(rootView.quantity * price)"
+        Task {
+            do {
+                guard let _ = try await cartService.updateCart(cartItemID: menuId, requestBody: UpdateCartRequestDTO(amount: rootView.quantity)) else {
+                    return
+                }
+            }
+        }
     }
     @objc private func didTapPlus() {
         rootView.totalPriceLabel.text = "₩\(rootView.quantity * price)"
+        Task {
+            do {
+                guard let _ = try await cartService.updateCart(cartItemID: menuId, requestBody: UpdateCartRequestDTO(amount: rootView.quantity)) else {
+                    return
+                }
+            }
+        }
     }
     @objc private func didTapEdit() {
         // 옵션 변경 Bottom Sheet
@@ -124,6 +137,19 @@ final class OrderListViewController: BaseViewController {
                 guard let _ = try await orderService.order() else {
                     return
                 }
+                
+                guard let response = try await orderService.fetchRecentItems() else {
+                    return
+                }
+                
+                let index = response.data.recentItems.count - 1
+                
+                if let imageURL = URL(string: response.data.recentItems[index].menuImg) {
+                    rootView.recentOrderImageView.kf.setImage(with: imageURL)
+                }
+                
+                rootView.recentOrderPriceLabel.text = "₩\(response.data.recentItems[index].menuPrice) ~"
+                rootView.recentOrderNameLabel.text = response.data.recentItems[index].menuName
             }
         }
         

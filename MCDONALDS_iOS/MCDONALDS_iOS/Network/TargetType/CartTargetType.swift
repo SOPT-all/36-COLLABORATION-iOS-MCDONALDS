@@ -10,6 +10,7 @@ import Foundation
 enum CartTargetType {
     case addToCart(CartRequestDTO)
     case fetchCart
+    case updateCart(cartItemID: Int, requestBody: UpdateCartRequestDTO)
 }
 
 extension CartTargetType: TargetType {
@@ -23,6 +24,8 @@ extension CartTargetType: TargetType {
             return ""
         case .fetchCart:
             return ""
+        case .updateCart(cartItemID: let cartItemID, _):
+            return "\(cartItemID)"
         }
     }
     
@@ -32,15 +35,19 @@ extension CartTargetType: TargetType {
             return .post
         case .fetchCart:
             return .get
+        case .updateCart:
+            return .patch
         }
     }
     
     var task: NetworkTask {
         switch self {
-        case .addToCart(let reqeust):
-            return .requestJSONEncodable(encodable: reqeust)
+        case .addToCart(let reqeustBody):
+            return .requestJSONEncodable(encodable: reqeustBody)
         case .fetchCart:
             return .requestPlain
+        case .updateCart(_, requestBody: let requestBody):
+            return .requestJSONEncodable(encodable: requestBody)
         }
     }
     

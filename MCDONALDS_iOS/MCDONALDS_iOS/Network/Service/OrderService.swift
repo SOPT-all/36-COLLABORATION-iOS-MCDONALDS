@@ -16,4 +16,7 @@ class OrderService: BaseService<OrderTargetType> {
         return try await request(with: .order)
     }
     
+    func fetchRecentItems() async throws -> BaseResponseBody<RecentOrderResponseDTO>? {
+        return try await request(with: .fetchRecentOrder)
+    }
 }
