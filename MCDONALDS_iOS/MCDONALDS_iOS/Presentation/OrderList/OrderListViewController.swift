@@ -15,6 +15,12 @@ final class OrderListViewController: BaseViewController {
     
     private let rootView = OrderListView()
     private let cartService = CartService.service
+    private var orderService = OrderService.shared
+    
+    private var price: Int = 0
+    
+    private var burgerName: String = ""
+    private var burgerImageString: String = ""
     
     // MARK: - Life Cycle
     
@@ -39,6 +45,7 @@ final class OrderListViewController: BaseViewController {
                 rootView.menuTitleLabel.text = response.data.cartItems[response.data.cartItems.count - 1].menuName
                 if let imageURL = URL(string: response.data.cartItems[response.data.cartItems.count - 1].imageUrl) {
                     rootView.menuImageView.kf.setImage(with: imageURL)
+                    rootView.recentOrderImageView.kf.setImage(with: imageURL)
                 }
                 rootView.menuDetailLabel.text = """
 \(response.data.cartItems[response.data.cartItems.count - 1].menuName)
@@ -47,9 +54,15 @@ final class OrderListViewController: BaseViewController {
 선택 안함
 """
                 rootView.menuPriceLabel.text = "₩\(response.data.cartItems[response.data.cartItems.count - 1].price)"
-                rootView.totalPriceLabel.text = "₩\(response.data.cartItems[response.data.cartItems.count - 1].price)"
-            } catch {
-                // 에러 처리
+                rootView.totalPriceLabel.text = "₩\(response.data.cartItems[response.data.cartItems.count - 1].price * response.data.cartItems[response.data.cartItems.count - 1].amount)"
+                rootView.recentOrderPriceLabel.text = "₩\(response.data.cartItems[response.data.cartItems.count - 1].price) ~"
+                rootView.recentOrderNameLabel.text = response.data.cartItems[response.data.cartItems.count - 1].menuName
+                price = response.data.cartItems[response.data.cartItems.count - 1].price
+                rootView.quantity = response.data.cartItems[response.data.cartItems.count - 1].amount
+                rootView.quantityLabel.text = "\(response.data.cartItems[response.data.cartItems.count - 1].amount)"
+                burgerName = response.data.cartItems[response.data.cartItems.count - 1].menuName
+                burgerImageString = response.data.cartItems[response.data.cartItems.count - 1].imageUrl
+                
             }
         }
     }
@@ -72,14 +85,17 @@ final class OrderListViewController: BaseViewController {
     // MARK: - Actions (@objc)
     
     @objc private func didTapMinus() {
-        // 수량 감소
+        rootView.totalPriceLabel.text = "₩\(rootView.quantity * price)"
     }
     @objc private func didTapPlus() {
-        // 수량 증가
+        rootView.totalPriceLabel.text = "₩\(rootView.quantity * price)"
     }
     @objc private func didTapEdit() {
         // 옵션 변경 Bottom Sheet
-        let editVC = OrderViewController(menuId: 1)
+        let editVC = BottomSheetViewController(
+            burgerName: burgerName,
+            burgerImageString: burgerImageString
+        )
         editVC.modalPresentationStyle = .pageSheet
         if let sheet = editVC.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
@@ -92,9 +108,29 @@ final class OrderListViewController: BaseViewController {
         // 메뉴 삭제 처리
     }
     @objc private func didTapAddMenu() {
-        // + 메뉴 추가
+        guard let viewControllers = navigationController?.viewControllers else {
+            return
+        }
+        
+        for viewController in viewControllers {
+            if viewController is MenuListViewController {
+                navigationController?.popToViewController(viewController, animated: true)
+            }
+        }
     }
     @objc private func didTapSelectLocation() {
-        // 수령 장소 선택
+        Task {
+            do {
+                guard let _ = try await orderService.order() else {
+                    return
+                }
+            }
+        }
+        
+        rootView.emptyCartContainerView.isHidden = false
+        rootView.footerSeparator.isHidden = true
+        rootView.footerContainer.isHidden = true
+        rootView.recentOrderContainerView.isHidden = false
+        rootView.recentOrderTitleLabel.isHidden = false
     }
 }
