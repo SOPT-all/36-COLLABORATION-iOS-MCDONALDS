@@ -51,10 +51,12 @@ final class OrderListViewController: BaseViewController {
 선택 안함
 """
                 rootView.menuPriceLabel.text = "₩\(response.data.cartItems[response.data.cartItems.count - 1].price)"
-                rootView.totalPriceLabel.text = "₩\(response.data.cartItems[response.data.cartItems.count - 1].price)"
+                rootView.totalPriceLabel.text = "₩\(response.data.cartItems[response.data.cartItems.count - 1].price * response.data.cartItems[response.data.cartItems.count - 1].amount)"
                 rootView.recentOrderPriceLabel.text = "₩\(response.data.cartItems[response.data.cartItems.count - 1].price) ~"
                 rootView.recentOrderNameLabel.text = response.data.cartItems[response.data.cartItems.count - 1].menuName
                 price = response.data.cartItems[response.data.cartItems.count - 1].price
+                rootView.quantity = response.data.cartItems[response.data.cartItems.count - 1].amount
+                rootView.quantityLabel.text = "\(response.data.cartItems[response.data.cartItems.count - 1].amount)"
                 
             }
         }
