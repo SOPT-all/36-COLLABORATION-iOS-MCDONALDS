@@ -38,10 +38,22 @@ final class OrderListView: BaseView {
     let addMenuButton = UIButton(type: .custom)
     
     // Footer (주문 금액)
-    private let footerSeparator = UIView()
-    private let footerContainer = UIView()
+    let footerSeparator = UIView()
+    let footerContainer = UIView()
     private let orderAmountStaticLabel = UILabel()
     let totalPriceLabel = UILabel()
+    
+    // 빈 주문내역 뷰
+    let emptyCartContainerView = UIView()
+    private let emptyCartImageView = UIImageView()
+    private let emptyCartLabel = UILabel()
+    
+    // 최근 주문 내역
+    let recentOrderTitleLabel = UILabel()
+    let recentOrderContainerView = UIView()
+    let recentOrderImageView = UIImageView()
+    let recentOrderNameLabel = UILabel()
+    let recentOrderPriceLabel = UILabel()
     
     // MARK: - McdonaldsButton
     
@@ -50,7 +62,7 @@ final class OrderListView: BaseView {
     
     // MARK: - State
     
-    private var quantity: Int = 1
+    var quantity: Int = 1
     
     // MARK: - UI Setting
     
@@ -190,19 +202,62 @@ final class OrderListView: BaseView {
             $0.font = UIFont(name: "Pretendard-Bold", size: 16)
             $0.textColor = .black
         }
+        emptyCartContainerView.do {
+            $0.backgroundColor = .staticWhite
+            $0.isHidden = true
+        }
+        emptyCartImageView.do {
+            $0.image = .iconHamburger
+            $0.contentMode = .scaleAspectFit
+        }
+        emptyCartLabel.do {
+            $0.text = "장바구니가 비었어요"
+            $0.font = .pretendard(.bodyBold14)
+            $0.textColor = .staticBlack
+        }
+        
+        recentOrderTitleLabel.do {
+            $0.text = "최근에 주문한 버거"
+            $0.font = .pretendard(.bodyBold15)
+            $0.textColor = .staticBlack
+            $0.isHidden = true
+        }
+        
+        recentOrderContainerView.do {
+            $0.backgroundColor = .staticWhite
+            $0.isHidden = true
+        }
+        
+        recentOrderImageView.do {
+            $0.contentMode = .scaleAspectFit
+        }
+        
+        recentOrderNameLabel.do {
+            $0.font = .pretendard(.bodyBold13)
+            $0.textColor = .staticBlack
+        }
+        
+        recentOrderPriceLabel.do {
+            $0.font = .pretendard(.bodyReg13)
+            $0.textColor = .grayScale800
+        }
     }
     
     // MARK: - UI Hierarchy
     
     override func setUI() {
         // Header
-        addSubviews(storeIconImageView,
-                    storeNameLabel,
-                    changeStoreButton,
-                    headerSeparator)
+        addSubviews(
+            storeIconImageView,
+            storeNameLabel,
+            changeStoreButton,
+            headerSeparator,
+            menuContainer,
+            emptyCartContainerView,
+            recentOrderTitleLabel,
+            recentOrderContainerView
+        )
         
-        // Menu Cell
-        addSubview(menuContainer)
         menuContainer.addSubviews(menuTitleLabel,
                                   menuDetailLabel,
                                   menuImageView,
@@ -228,6 +283,14 @@ final class OrderListView: BaseView {
         
         // Select Location Button
         addSubview(selectLocationButton)
+        
+        emptyCartContainerView.addSubviews(emptyCartImageView, emptyCartLabel)
+        
+        recentOrderContainerView.addSubviews(
+            recentOrderImageView,
+            recentOrderNameLabel,
+            recentOrderPriceLabel
+        )
     }
     
     // MARK: - Layout
@@ -355,6 +418,54 @@ final class OrderListView: BaseView {
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
             $0.height.equalTo(56)
+        }
+        
+        emptyCartContainerView.snp.makeConstraints {
+            $0.top.equalTo(headerSeparator.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalTo(menuSeparator.snp.bottom)
+        }
+        
+        emptyCartImageView.snp.makeConstraints {
+            $0.size.equalTo(93)
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().inset(64)
+        }
+        
+        emptyCartLabel.snp.makeConstraints {
+            $0.top.equalTo(emptyCartImageView.snp.bottom).offset(21)
+            $0.centerX.equalToSuperview()
+        }
+        
+        recentOrderTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(addMenuButton.snp.bottom).offset(168)
+            $0.leading.equalToSuperview().inset(25)
+            $0.height.equalTo(22)
+        }
+        
+        recentOrderContainerView.snp.makeConstraints {
+            $0.top.equalTo(recentOrderTitleLabel.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(94)
+        }
+        
+        recentOrderImageView.snp.makeConstraints {
+            $0.width.equalTo(69)
+            $0.height.equalTo(54)
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(21)
+        }
+        
+        recentOrderNameLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(23)
+            $0.leading.equalTo(recentOrderImageView.snp.trailing).offset(10)
+            $0.height.equalTo(22)
+        }
+        
+        recentOrderPriceLabel.snp.makeConstraints {
+            $0.top.equalTo(recentOrderNameLabel.snp.bottom).offset(4)
+            $0.leading.equalTo(recentOrderImageView.snp.trailing).offset(10)
+            $0.height.equalTo(22)
         }
     }
     
